@@ -2,34 +2,26 @@
 # @Time   ： 2019/3/18 16:17
 # @Author : Wesley
 # @File   : login.py
-# block_list = ['admin','root','123' ]
-# user_dict = {
-#     "name":"szk",
-#     "passwd":"123"
-# }
 
-def read_user():
-    with open('user.db','r',encoding='utf-8') as read_user:
-        user_dict=dict(read_user)
-        for k,v in user_dict.items():
-            print(k,v)
-            username = k
-            userpasswd = v
-            return username,userpasswd
-
+user_dict = {
+    "name":"szk",
+    "passwd":"123"
+}
 
 def read_blocklist():
-    with open('blocklist.db','r',encoding='utf-8') as read_lock_user :
-        lock_user_data = read_lock_user.read()
+    '''读取黑名单中的用户信息'''
+    with open('blocklist.db','r',encoding='utf-8') as lock_user :
+        lock_user_data = lock_user.read()
         return lock_user_data
 
 def write_blocklist(username):
+    '''将输入密码三次用户写入黑名单'''
     with open('blocklist.db','a',encoding='utf-8') as write_lock_user:
         write_lock_user.write('\n'+username)
 
-def loggin():
+def login():
+    '''主程序'''
     error_number = 0
-    username,userpasswd = read_user()
     lock_user_data=read_blocklist()
     while True:
         username = input('Please input your name: ')
@@ -56,4 +48,4 @@ def loggin():
                 write_blocklist(username)
                 exit(1)
 
-# loggin()
+login()

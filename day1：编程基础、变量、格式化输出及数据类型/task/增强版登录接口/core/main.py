@@ -13,10 +13,15 @@ def read_user():
 
 def read_blocklist():
     '''读取黑名单用户'''
-    with open('db/blocklist.db','r',encoding='utf-8') as read_lock_user :
-        lock_user_list = read_lock_user.readline().split('\n')
-        return lock_user_list
-
+    lock_user_list = []
+    with open('blocklist.db','r',encoding='utf-8') as read_lock_user :
+        line = read_lock_user.readline().strip()
+        while line:
+            print(line,end=":")
+            line = read_lock_user.readline().strip()
+        # print(lock_user_list)
+        # return lock_user_list
+read_blocklist()
 def regiset_user(username,passwd):
     '''注册用户并写入user.db'''
     with open('db/user.db', 'a', encoding='utf-8') as write_user:
@@ -30,3 +35,4 @@ def write_blocklist(input_number,username):
         with open('db/blocklist.db', 'a', encoding='utf-8') as write_lock_user:
             write_lock_user.write('\n' + username)
             exit(1)
+
