@@ -22,17 +22,23 @@ def main():
     -r : regiset new user
     -g : user login
     -h : help
+    -q : quit
     '''
-    choice = input("Input Option or -h see help: ").strip()
-    if choice == "-r":
-        bin.regiset_user(user_dict)
-        # 注册用户
-    elif choice == "-g":
-        bin.login(user_dict,lock_user_list)
-        # 登录用户
-    else:
-        print(menu)
-        # 打印菜单
+    while True:
+        choice = input("Input Option or -h see help: ").strip()
+        if choice == "-r":
+            bin.regiset_user(user_dict)
+            # 注册用户
+        elif choice == "-g":
+            bin.login(user_dict,lock_user_list)
+            # 登录用户
+        elif choice == "-h":
+            print(menu)
+            # 打印菜单
+        elif choice == "-q":
+            exit(0)
+        else:
+            print(menu)
 
 if __name__ == '__main__':
     main()

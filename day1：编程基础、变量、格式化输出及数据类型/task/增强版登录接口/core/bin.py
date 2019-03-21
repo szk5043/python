@@ -35,7 +35,6 @@ def regiset_user(user_dict):
             with open('db/user.db', 'a', encoding='utf-8') as write_user:
                 write_user.write('\n' +username+':'+userpasswd)
                 print("%s is regiset succeed!" % username)
-                exit(0)
 
 def write_blocklist(error_number,username):
     '''判断用户输错次数，大于三次写入黑名单'''
@@ -59,7 +58,6 @@ def login(user_dict,lock_user_list):
             if userpasswd == user_dict[username]:
                 # 通过用户名取的在字典中对应的密码，user_dict[keys]=values
                 print("%s is logging succeed!" % username)
-                exit(0)
             else:
                 print("Your %s password is error!" % username)
                 error_number = int(error_number) + 1
