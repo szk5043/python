@@ -4,62 +4,61 @@
 # @File   : 作业.py
 
 # 1.统计元组中所有数据属于字符串的个数
-# t1 = (1, 2, '3', '4', 5, '6')
-# number=0
-# for i in t1:
-#     if isinstance(i,str):
-#         number += 1
-# print(number)
-#
-# '''
-# 返回值：
-# 3
-# '''
+t1 = (1, 2, '3', '4', 5, '6')
+number=0
+for i in t1:
+    if isinstance(i,str):
+        number += 1
+print(number)
 
 # 2.将以下数据存储为字典类型
 # 数据：info = "name:Owen|age:18|gender:男"
 # 结果：{'name': 'Owen', 'age': 18, 'gender': '男'}
 # 注：年龄存储为数字类型
-# info = "name:Owen|age:18|gender:男"
-# dict_1 = {}
-# data= info.split('|')
-# for y in data:
-#    k,v  = y.split(':')
-#    if v.isdigit():
-#        v = int(v)
-#    dict_1[k] = v
-# print(dict_1)
+info = "name:Owen|age:18|gender:男"
+dict_1 = {}
+data= info.split('|')
+for y in data:
+   k,v  = y.split(':')
+   if v.isdigit():
+       v = int(v)
+   dict_1[k] = v
+print(dict_1)
+
 # 3.完成数据的去重
 # 数据：t3 = (1, 2, 1, 2, 3, 5, 9)
 # 结果：t3 = (1, 2, 3, 5, 9)
 # 注：从不考虑顺序、考虑顺序两方面完成
-# t3 = (1, 2, 1, 2, 3, 5, 9)
-# list_1 = []
-# for i in t3:
-#     if i not in list_1:
-#         list_1.append(i)
-#         list_1.sort()   #增加排序
-# t3 = tuple(list_1)
-# print(t3)
+t3 = (1, 2, 1, 2, 3, 5, 9)
+list_1 = []
+for i in t3:
+    if i not in list_1:
+        list_1.append(i)
+        list_1.sort()   #增加排序
+t3 = tuple(list_1)
+print(t3)
+
 # 4.计算元组中所有可以转换为数字的数据的总和
 # 数据：t4 = (10, 'abc', '100', '3')
 # 运算结果：113
-# t4 = (10, 'abc', '100', '3')
-# list_2 = []
-# for i in t4:
-#     if isinstance(i, int):
-#         list_2.append(i)
-#     elif isinstance(i ,str):
-#         if i.isdigit():
-#             list_2.append(int(i))
-# print(sum(list_2))
+t4 = (10, 'abc', '100', '3')
+list_2 = []
+for i in t4:
+    if isinstance(i, int):
+        list_2.append(i)
+    elif isinstance(i ,str):
+        if i.isdigit():
+            list_2.append(int(i))
+print(sum(list_2))
 
 # 5.将数据转换类型存储
 # 原数据：dic = {'name': 'Owen', 'age': 18, 'gender': '男'}
 # 处理后：info = [('name', 'Owen'), ('age', 18), ('gender', '男')]
 dic = {'name': 'Owen', 'age': 18, 'gender': '男'}
 info = []
-print(str(dic).split(','))
+for k,v in dic.items():
+    info.append((k,v))
+print(info)
 
 # 拓展：选做
 # 1.计算元组中所有可以转换为数字的数据的总和
@@ -70,6 +69,18 @@ print(str(dic).split(','))
 # 	-- 利用字典{'壹': 1 ...}将汉字转换为数字
 #	-- 利用isinstance()将list和tuple中数据取出来
 #	-- 先将所有转化为数字的数据存放在一个单列集合中，在做运算
+t4 = (10, 'abc', '100', '3', '壹', '肆', [1000], (10000,))
+number_dict = {'壹': 1,'贰': 2,'叁': 3,'肆': 4,'伍': 5,'陆': 6,'柒': 7,'捌': 8,'玖': 9,'拾': 10}
+list_1 = []
+for i in t4:
+    if str(i).isdigit():
+        list_1.append(int(i))
+    elif isinstance(i,list) or isinstance(i,tuple):
+        for x in i:
+            list_1.append(int(x))
+    elif i.isnumeric():
+        list_1.append(number_dict[i])
+print(sum(list_1))
 
 # 2.完成录入电话本
 # 需求：
@@ -97,3 +108,21 @@ print(str(dic).split(','))
     }
 }
 '''
+phone_dict = {}
+while True:
+    name = input("Please input name: ").strip()
+    if name == 'q':
+        break
+    if name.isalpha():
+        phone_group = name[0:1].upper()
+        phone_dict.setdefault(phone_group, {})
+        phone_number = input("Please input phone number: ").strip()
+        if len(phone_number) == 11 and phone_number.isdigit():
+            phone_dict[phone_group][name] = phone_number
+            name = ''
+            phone_number = ''
+            print('phone is save! ')
+        else:
+            name = ''
+            print("phone number is error")
+print(phone_dict)
