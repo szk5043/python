@@ -20,3 +20,13 @@
 > 注：可变和不可变类型[详解](https://github.com/szk5043/python/blob/master/2%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F/7%EF%BC%9A%E5%8F%AF%E5%8F%98%E5%92%8C%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B.md)
 
 ## 二、条件表达式
+
+#### 1、赋值语句
+`=`
+
+#### 2、逻辑判断语句
+`if eilf else`
+
+#### 3、循环及循环退出语句
+`while break continue`
+
