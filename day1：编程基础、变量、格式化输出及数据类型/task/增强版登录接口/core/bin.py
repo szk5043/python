@@ -38,7 +38,6 @@ def regiset_user(user_dict):
 
 def write_blocklist(error_number,username):
     '''判断用户输错次数，大于三次写入黑名单'''
-    error_number = int(error_number) + 1
     if error_number == 3:
         print('Warning, your input number is %d , %s status is locked !' % (error_number,username))
         with open('db/blocklist.db', 'a', encoding='utf-8') as write_lock_user:
