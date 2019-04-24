@@ -12,26 +12,36 @@ dic1 = { k:v for k,v in ls }
 print(dic1)
 
 # 2、写出for迭代器迭代字符串、列表、元组、集合、字典(三种情况)的代码实现
-def my_for(object):
-    if isinstance(object,str) or isinstance(object,list) or isinstance(object,tuple) or isinstance(object,set):
-        for i in object:
-            yield i
-    elif isinstance(object,dict):
-        for k,v in object.items():
-            yield (k,v)
+# 字符串
+for i in 'abc'.__iter__():
+    print(i)
 
-str1 = 'abc'
-list1 = [1,2,3]
-tuple1 = (1,2,3)
-set1 = {1,2,3}
-dict1 = {'a':1,'b':2,'c':3}
+# 列表
+for i in [1,2,3].__iter__():
+    print(i)
 
-print(my_for(str1).__next__())
-print(my_for(list1).__next__())
-print(my_for(tuple1).__next__())
-print(my_for(set1).__next__())
-print(my_for(dict1).__next__())
+# 元组
+for i in (1,2,3).__iter__():
+    print(i)
 
+# 集合
+for i in {1,2,3}.__iter__():
+    print(i)
+
+# 字典：示例1
+for i in {'a':1}.__iter__():
+    print(i)
+# 字典：示例2
+dic_box = {'a':1}.__iter__()
+while True:
+    try:
+        print(dic_box.__next__())
+    except StopIteration:
+        print("over...")
+        break
+# 字典：示例3
+for v in {'a':1}:
+     print(v)
 # 3、用生成器实现可以无限取值的生成器对象，第一次取值得到1，第二次取值得到3，第三次取值得到6，第四次取值得到10，依次类推
 def fn2():
     total = 1
