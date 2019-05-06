@@ -120,21 +120,19 @@ def f2():
 
 - 包名为pkg
 - 一级目录pkg下：
-  ​		-- m.py 模块 有函数m_fn
-  ​		-- sub1 子包
-  ​		-- sub2 子包
--   二级目录sub1下：
-  ​		-- m1.py 模块 有函数 m1_fn
--   二级目录sub2下：
-  ​		-- m2.py 模块 有函数 m2_fn
+  - m.py 模块 有函数m_fn
+  - sub1 子包
+  - sub2 子包
+- 二级目录sub1下：
+  - m1.py 模块 有函数 m1_fn
+- 二级目录sub2下：
+  - m2.py 模块 有函数 m2_fn
 -  要求：
   -  在执行文件run.py只导入pkg包，不做其他导入操作
   -  在执行文件run.py中访问三个函数的方式分别是
-  	​		pgk.m_fn()
-  	​		pgk.m1_fn()
-  	​		pgk.sub2.m2_fn()
-  	​	如何来设计包
-  '''
+     - pgk.m_fn()
+     - pgk.m1_fn()
+     - pgk.sub2.m2_fn()
 
 **文件目录树：**
 
