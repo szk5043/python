@@ -2,20 +2,22 @@
 # @Time   ： 2019/5/10 14:22
 # @Author : Wesley
 # @File   : src.py
-from interface import user, bank, shopping
+
+from interface import user, shopping, bank
 from lib import common
 
 user_info = {'name': None}
 
+
 def login():
     '''用户登录'''
     while True:
-        name = input('请输入用户名：').strip()
+        username = input('请输入用户名: ').strip()
         password = input('请输入密码：').strip()
-        flag, msg = user.login_interface(name, password)
+        flag, msg = user.login_interface(username, password)
         if flag:
             print(msg)
-            user_info['name'] = name
+            user_info['name'] = username
             break
         else:
             print(msg)
@@ -24,72 +26,69 @@ def login():
 def register():
     '''用户注册'''
     while True:
-        name = input('请输入用户名：').strip()
+        username = input('请输入用户名: ').strip()
         password = input('请输入密码：').strip()
-        conf_password = input('请确认密码：').strip()
+        conf_password = input('请再输入一次密码：').strip()
         if password == conf_password:
-            flag, msg = user.register_interface(name, password)
+            flag, msg = user.register_interface(username, password)
             if flag:
                 print(msg)
                 break
             else:
                 print(msg)
-        else:
-            print('两次密码不一致')
 
 
 @common.auth
 def check_balance():
     '''查看余额'''
-    balance = bank.check_balance_interface(user_info['name'])
-    print('您的余额为：%s' % balance)
+    balance = user.check_balance_interface(user_info['name'])
+    print(balance)
 
 
 @common.auth
 def transfer():
     '''转账'''
-    while True:
-        to_user = input('请输入要转账的账户：').strip()
-        balance = input('请输入转账金额： ').strip()
-        if balance.isdigit():
-            balance = int(balance)
-            flag,msg = bank.transfer_interface(user_info['name'],to_user,balance)
-            if flag:
-                print(msg)
-                break
-            else:
-                print(msg)
+    to_user = input('请输入转账的用户名: ').strip()
+    balance = input('请输入转账的金额: ').strip()
+    if not balance.isdigit():
+        print('请输入数字')
+    balance = int(balance)
+    flag, msg = bank.transfer_interface(user_info['name'], to_user, balance)
+    if flag:
+        print(msg)
+    else:
+        print(msg)
 
 @common.auth
 def repay():
     '''还款'''
-    balance = input('请输入还款金额：').strip()
-    if balance.isdigit():
-        balance = int(balance)
-        __flag,msg = bank.repay_interface(user,balance)
-        print(msg)
-
+    balance = input('请输入还款金额: ').strip()
+    if not balance.isdigit():
+        print('请输入数字')
+    balance = int(balance)
+    msg = bank.repay_interface(user_info['name'], balance)
+    print(msg)
 
 @common.auth
 def withdraw():
     '''取款'''
-    while True:
-        balance = input('请输入取款金额：').strip()
-        if balance.isdigit():
-            balance = int(balance)
-            flag, msg = bank.withdraw_interface(user_info['name'], balance)
-            if flag:
-                print(msg)
-                break
-            else:
-                print(msg)
+    balance = input('请输入取款金额: ').strip()
+    if not balance.isdigit():
+        print('请输入数字')
+    balance = int(balance)
+    flag , msg = bank.withdraw_interface(user_info['name'], balance)
+    if flag:
+        print(msg)
+    else:
+        print(msg)
 
 
 @common.auth
 def check_record():
     '''查看流水'''
-    pass
-
+    bankflow_list = bank.check_record_interface(user_info['name'])
+    for bankflow in bankflow_list:
+        print(bankflow)
 
 @common.auth
 def shop():
@@ -118,9 +117,10 @@ def check_shopping_cart():
     pass
 
 
+@common.auth
 def logout():
     '''用户注销'''
-    pass
+    user_info['name'] = None
 
 
 func_dic = {
@@ -154,6 +154,6 @@ def run():
          10、注销        
          ''')
         choice = input('请选择:').strip()
+        if choice == 'q': break
         if choice not in func_dic: continue
-
         func_dic[choice]()

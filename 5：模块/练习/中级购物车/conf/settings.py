@@ -3,6 +3,8 @@
 # @Author : Wesley
 # @File   : settings.py
 import os
+import sys
 
-DIR_PATH = os.path.dirname(os.path.dirname(__file__))
-DIR_DB = os.path.join(DIR_PATH, 'db')
+
+BASE_PATH = os.path.dirname(os.path.dirname(__file__))
+DB_PATH = os.path.join(BASE_PATH,'db')

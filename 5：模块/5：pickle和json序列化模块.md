@@ -4,7 +4,7 @@
 
 **什么是序列化？**
 
-我们在写入文件中的数据，只能是字符串，但是如果要想把内存的数据对象存到硬盘上去怎么办呐？下面就来说说序列化：**序列化就是将内存中的数据持久化到硬盘**
+我们在写入文件中的数据，只能是字符串（二进制、文本、原意），但是如果要想把内存的数据对象存到硬盘上去怎么办呐？下面就来说说序列化：**序列化就是将内存中的数据持久化到硬盘**
 
 **为什么需要序列化？**
 
@@ -12,13 +12,13 @@
 
 **序列化和反序列化：**
 
-序列化：能将 所有python中的数据序列化，（序列化时序列化成二进制格式写入文件）
+序列化：能将 所有python中的数据序列化，（序列化时序列化成相应格式写入文件，Pickle用二进制，JSON用unicode）
 
 反序列化：将之前序列化的数据，再恢复成python的数据格式
 
 ### 2、Pickle
 
-**python优缺点：**
+**Pickle优缺点：**
 
 - python内置序列化模块之一
 - pickle是二进制序列化格式
@@ -72,12 +72,12 @@ print(pickle.load(open('user.txt','rb')))   #从文件反序列化
 **JSON的优缺点：**
 
 - json是一种文本序列化格式（它输出unicode文本，虽然大部分时间它被编码`utf-8`）
-
 - json是人类可读的，而pickle则不是;
 - json可以支持python的数据类型有str、int、float、dic、list、bool
 - json是可互操作的，并且在Python生态系统之外广泛使用，而pickle是特定于Python的;
-
 - 默认情况下，json只能表示Python内置类型的子集，而不能表示自定义类; pickle可以表示极其庞大的Python类型（其中许多是自动的，通过巧妙地使用Python的内省工具;复杂的案例可以通过实现[特定的对象API](https://docs.python.org/3/library/pickle.html#pickle-inst)来解决）。
+- json只能有一个根: json_str = '\[]\[]'会报错
+- json中的字符串类型只支持双引号
 
 Python 和 JSON数据类型对比：
 
@@ -123,4 +123,20 @@ json.load和json.loads的区别：
 
 - json.loads是将str转成dict
 - json.load是从json文件读取数据，源格式是什么就读取为什么，示例2中源格式为dict
+
+**示例3：只能有一个根**
+
+```python
+import json
+
+json_str = '[][]'
+obj = json.loads(json_str)
+print(obj)
+
+'''
+报错
+'''
+```
+
+
 

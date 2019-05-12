@@ -4,20 +4,19 @@
 # @File   : db_handler.py
 import json
 import os
+import json
 from conf import settings
 
-
-def save(user_dict):
-    path = os.path.join(settings.DIR_DB, '%s.json' % user_dict['name'])
-    with open(path, 'w', encoding='utf-8') as f:
-        json.dump(user_dict, f)
-
-
-def select(name):
-    path = os.path.join(settings.DIR_DB, '%s.json' % name)
-    if os.path.exists(path):
-        with open(path, 'r', encoding='utf-8') as f:
+def select(username):
+    json_path = os.path.join(settings.DB_PATH,'%s.json' %username)
+    if os.path.exists(json_path):
+        with open(json_path,'r',encoding='utf-8') as f:
             user_dic = json.load(f)
             return user_dic
-    else:
-        return False
+
+def save(user_dic):
+    username = user_dic['name']
+    json_path = os.path.join(settings.DB_PATH, '%s.json' % username)
+    if not os.path.exists(json_path):
+        with open(json_path,'w',encoding='utf-8') as f:
+            json.dump(user_dic,f)
