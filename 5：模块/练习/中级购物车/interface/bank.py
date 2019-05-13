@@ -42,5 +42,5 @@ def check_record_interface(user):
     user_dic = db_handler.select(user)
     bankflow_list = user_dic['bankflow']
     if not bankflow_list:
-        return '没有记录'
-    return bankflow_list
+        return False,'没有记录'
+    return True,bankflow_list

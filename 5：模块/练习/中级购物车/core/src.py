@@ -86,9 +86,12 @@ def withdraw():
 @common.auth
 def check_record():
     '''查看流水'''
-    bankflow_list = bank.check_record_interface(user_info['name'])
-    for bankflow in bankflow_list:
-        print(bankflow)
+    flag,msg = bank.check_record_interface(user_info['name'])
+    if flag:
+        for bankflow in msg:
+            print(bankflow)
+    else:
+        print(msg)
 
 @common.auth
 def shop():
@@ -108,7 +111,20 @@ def shop():
           8.3 接受用户输入，是否购买 当输入y，直接调购物接口实现购物
       :return:
       '''
-    pass
+    shop_list = [
+        ['office',15],
+        ['肠粉',20],
+        ['地锅鸡',80],
+        ['南非干鲍',480],
+        ['血燕',1080],
+        ['MacBook Pro',16800],
+        ['特斯拉',980000]
+    ]
+
+    for i,shopp in enumerate(shop_list):
+        print(i,shop)
+    #chioce = input('请选择商品编号：').strip()
+
 
 
 @common.auth

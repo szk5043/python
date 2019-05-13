@@ -17,6 +17,5 @@ def select(username):
 def save(user_dic):
     username = user_dic['name']
     json_path = os.path.join(settings.DB_PATH, '%s.json' % username)
-    if not os.path.exists(json_path):
-        with open(json_path,'w',encoding='utf-8') as f:
-            json.dump(user_dic,f)
+    with open(json_path,'w',encoding='utf-8') as f:
+        json.dump(user_dic,f)
