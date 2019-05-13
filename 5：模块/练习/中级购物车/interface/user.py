@@ -23,7 +23,9 @@ def register_interface(username, password):
                     'password': password.hexdigest(),
                     'balance': 15000,
                     'bankflow': [],
-                    'shoppingcart': {},
+                    'shopping_cart': {},  # 购物车：存放未结账商品
+                    'reticule': {},  # 手提袋：存放已购买商品
+                    'locked': False,
                     'register_time': register_time}
         db_handler.save(user_dic)
         return True, '注册成功'

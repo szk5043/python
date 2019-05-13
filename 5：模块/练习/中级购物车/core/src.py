@@ -59,6 +59,7 @@ def transfer():
     else:
         print(msg)
 
+
 @common.auth
 def repay():
     '''还款'''
@@ -69,6 +70,7 @@ def repay():
     msg = bank.repay_interface(user_info['name'], balance)
     print(msg)
 
+
 @common.auth
 def withdraw():
     '''取款'''
@@ -76,7 +78,7 @@ def withdraw():
     if not balance.isdigit():
         print('请输入数字')
     balance = int(balance)
-    flag , msg = bank.withdraw_interface(user_info['name'], balance)
+    flag, msg = bank.withdraw_interface(user_info['name'], balance)
     if flag:
         print(msg)
     else:
@@ -86,51 +88,81 @@ def withdraw():
 @common.auth
 def check_record():
     '''查看流水'''
-    flag,msg = bank.check_record_interface(user_info['name'])
+    flag, msg = bank.check_record_interface(user_info['name'])
     if flag:
         for bankflow in msg:
             print(bankflow)
     else:
         print(msg)
 
+
 @common.auth
 def shop():
-    '''
-      1 先循环打印出商品
-      2 用户输入数字选择商品（判断是否是数字，判断输入的数字是否在范围内）
-      3 取出商品名，商品价格
-      4 判断用户余额是否大于商品价格
-      5 余额大于商品价格时，判断此商品是否在购物车里
-          5.1 在购物车里，个数加1
-          5.1 不在购物车里，拼出字典放入（｛‘car’：｛‘price’：1000，‘count’：2｝,‘iphone’：｛‘price’：10，‘count’：1｝｝）
-      6 用户余额减掉商品价格
-      7 花费加上商品价格
-      8 当输入 q时，购买商品
-          8.1 消费为0 ，直接退出
-          8.2 打印购物车
-          8.3 接受用户输入，是否购买 当输入y，直接调购物接口实现购物
-      :return:
-      '''
+    '''购物车'''
     shop_list = [
-        ['office',15],
-        ['肠粉',20],
-        ['地锅鸡',80],
-        ['南非干鲍',480],
-        ['血燕',1080],
-        ['MacBook Pro',16800],
-        ['特斯拉',980000]
+        ['office', 15],
+        ['肠粉', 20],
+        ['地锅鸡', 80],
+        ['南非干鲍', 480],
+        ['血燕', 1080],
+        ['MacBook Pro', 16800],
+        ['特斯拉', 980000]
     ]
 
-    for i,shopp in enumerate(shop_list):
-        print(i,shop)
-    #chioce = input('请选择商品编号：').strip()
-
+    shopping_cart = {}  # 购物车
+    while True:
+        for i, shops in enumerate(shop_list):
+            print(i, shops)
+        chioce = input('请选择商品编号：').strip()
+        if not chioce.isdigit():
+            print('请输入正确的商品编号')
+        if int(chioce) > len(shop_list) and int(chioce) < 0:
+            print('您输入的商品编号不存在')
+        shop, price = shop_list[int(chioce)]
+        sure = input('立即付款or添加进购物车，请输入 F|J:').strip()
+        if sure == 'F':
+            # 选中商品，直接付款
+            if not shop in shopping_cart:
+                shopping_cart[shop] = {'price': price, 'number': 1}
+            shopping_cart[shop]['number'] += 1
+            flag, msg = shopping.pay_interface(user_info['name'], shopping_cart)
+            # 调用结账接口购买商品
+            if flag:
+                print(msg)
+                break
+            else:
+                print(msg)
+        elif sure == 'J':
+            # 加入购物车，稍后选择是否付款
+            if not shop in shopping_cart:
+                shopping_cart[shop] = {'price': price, 'number': 1}
+            shopping_cart[shop]['number'] += 1
+            msg = shopping.shopping_cart_interface(user_info['name'], shopping_cart)
+            # 调用购物车接口进行添加进购物车
+            print(msg)
+            sure2 = input('是否对购物车的商品进行结算Y ,返回上级菜单按q/Q').strip()
+            if sure2 == 'Y':
+                flag, msg = shopping.pay_interface(user_info['name'], shopping_cart)
+                if flag:
+                    print(msg)
+                    break
+                else:
+                    print(msg)
+            elif sure2 == 'Q' or sure2 == 'q':
+                break
 
 
 @common.auth
 def check_shopping_cart():
-    '''查看购物车'''
-    pass
+    '''查看已购买商品'''
+    reticule = shopping.check_shop_cart_interface(user_info['name'])
+    if reticule:
+        for shop, shop_dic in reticule.items():
+            price = shop_dic['price']
+            number = shop_dic['number']
+            print('品名：%s ，价格：%s，数量：%s ' % (shop, price, number))
+    else:
+        print('您的口袋空空如也，赶紧去购物吧')
 
 
 @common.auth
