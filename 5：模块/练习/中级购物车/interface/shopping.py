@@ -5,6 +5,9 @@
 
 from db import db_handler
 from interface import bank
+from lib import common
+
+shopping_logger = common.get_logger('shopping')
 
 def shopping_cart_interface(user, shopping_cart):
     '''购物车接口：将商品加入购物车'''
@@ -16,8 +19,9 @@ def shopping_cart_interface(user, shopping_cart):
         else:
             user_dic['shopping_cart'][shop] = {'price': price, 'number': 1}
         user_dic['bankflow'].append('%s成功添加%s商品进购物车' % (user, shop))
+        shopping_logger.info('%s成功添加%s商品进购物车' % (user, shop))
         db_handler.save(user_dic)
-        return '%s成功添加%s商品进购物车' % (user, shop)
+        #return '%s成功添加%s商品进购物车' % (user, shop)
 
 
 def pay_interface(user, shopping_cart):
@@ -38,7 +42,8 @@ def pay_interface(user, shopping_cart):
         number = user_dic['shopping_cart'][shop]['number']
         cost += (price * number)
     if cost > user_dic['balance']:
-        return False, '余额不足，无法付款'
+        shopping_logger.info('余额不足，无法付款')
+        return False#, '余额不足，无法付款'
     # 将购物车商品加入购物袋，并清空购物车
     for shop, shop_dic in user_dic['shopping_cart'].items():
         price = shop_dic['price']
@@ -46,9 +51,9 @@ def pay_interface(user, shopping_cart):
             user_dic['reticule'][shop]['number'] += 1
         user_dic['reticule'][shop] = {'price': price, 'number': 1}
     user_dic['shopping_cart'] = {}
-    msg = bank.pay_interface(user, cost)
+    bank.pay_interface(user, cost)
     db_handler.save(user_dic)
-    return True, msg
+    return True
 
 
 def check_shop_cart_interface(user):

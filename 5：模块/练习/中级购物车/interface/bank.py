@@ -3,7 +3,9 @@
 # @Author : Wesley
 # @File   : bank.py
 from db import db_handler
+from lib import common
 
+bank_logger = common.get_logger('bank')
 
 def transfer_interface(from_user, to_user, balance):
     '''转账接口'''
@@ -17,9 +19,11 @@ def transfer_interface(from_user, to_user, balance):
     to_user_dic['balance'] += balance
     from_user_dic['bankflow'].append('向%s用户成功转帐%s' % (to_user, balance))
     to_user_dic['bankflow'].append('从%s用户成功收帐%s' % (from_user, balance))
+    bank_logger.info('向%s用户成功转帐%s' % (to_user, balance))
+    bank_logger.info('从%s用户成功收帐%s' % (from_user, balance))
     db_handler.save(from_user_dic)
     db_handler.save(to_user_dic)
-    return True, '向%s用户成功转帐%s' % (to_user, balance)
+    return True#, '向%s用户成功转帐%s' % (to_user, balance)
 
 
 def repay_interface(user, balance):
@@ -27,19 +31,22 @@ def repay_interface(user, balance):
     user_dic = db_handler.select(user)
     user_dic['balance'] += balance
     user_dic['bankflow'].append('%s成功还款%s元' % (user, balance))
+    bank_logger.info('%s成功还款%s元' % (user, balance))
     db_handler.save(user_dic)
-    return '%s成功还款%s元' % (user, balance)
+    #return '%s成功还款%s元' % (user, balance)
 
 
 def withdraw_interface(user, balance):
     '''取款接口，取款扣除5%的手续费'''
     user_dic = db_handler.select(user)
     if user_dic['balance'] < balance * 1.05:
-        return False, '您的余额不足'
+        bank_logger.info('您的余额不足')
+        return False#, '您的余额不足'
     user_dic['balance'] -= balance * 1.05
     user_dic['bankflow'].append('%s成功取款%s元' % (user, balance))
     db_handler.save(user_dic)
-    return True, '%s成功取款%s元' % (user, balance)
+    bank_logger.info('%s成功取款%s元' % (user, balance))
+    return True#, '%s成功取款%s元' % (user, balance)
 
 
 def check_record_interface(user):
@@ -47,7 +54,8 @@ def check_record_interface(user):
     user_dic = db_handler.select(user)
     bankflow_list = user_dic['bankflow']
     if not bankflow_list:
-        return False, '没有记录'
+        bank_logger.info('没有流水记录')
+        return False#, '没有记录'
     return True, bankflow_list
 
 
@@ -57,4 +65,5 @@ def pay_interface(user, balance):
     user_dic['balance'] -= balance
     user_dic['bankflow'].append('%s成功付款%s元' % (user, balance))
     db_handler.save(user_dic)
-    return '%s成功付款%s元' % (user, balance)
+    bank_logger.info( '%s成功付款%s元' % (user, balance))
+    #return '%s成功付款%s元' % (user, balance)

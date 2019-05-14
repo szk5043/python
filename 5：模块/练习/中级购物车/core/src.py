@@ -14,13 +14,10 @@ def login():
     while True:
         username = input('请输入用户名: ').strip()
         password = input('请输入密码：').strip()
-        flag, msg = user.login_interface(username, password)
+        flag = user.login_interface(username, password)
         if flag:
-            print(msg)
             user_info['name'] = username
             break
-        else:
-            print(msg)
 
 
 def register():
@@ -30,12 +27,9 @@ def register():
         password = input('请输入密码：').strip()
         conf_password = input('请再输入一次密码：').strip()
         if password == conf_password:
-            flag, msg = user.register_interface(username, password)
+            flag = user.register_interface(username, password)
             if flag:
-                print(msg)
                 break
-            else:
-                print(msg)
 
 
 @common.auth
@@ -53,12 +47,7 @@ def transfer():
     if not balance.isdigit():
         print('请输入数字')
     balance = int(balance)
-    flag, msg = bank.transfer_interface(user_info['name'], to_user, balance)
-    if flag:
-        print(msg)
-    else:
-        print(msg)
-
+    bank.transfer_interface(user_info['name'], to_user, balance)
 
 @common.auth
 def repay():
@@ -67,9 +56,7 @@ def repay():
     if not balance.isdigit():
         print('请输入数字')
     balance = int(balance)
-    msg = bank.repay_interface(user_info['name'], balance)
-    print(msg)
-
+    bank.repay_interface(user_info['name'], balance)
 
 @common.auth
 def withdraw():
@@ -78,11 +65,7 @@ def withdraw():
     if not balance.isdigit():
         print('请输入数字')
     balance = int(balance)
-    flag, msg = bank.withdraw_interface(user_info['name'], balance)
-    if flag:
-        print(msg)
-    else:
-        print(msg)
+    bank.withdraw_interface(user_info['name'], balance)
 
 
 @common.auth
@@ -92,9 +75,6 @@ def check_record():
     if flag:
         for bankflow in msg:
             print(bankflow)
-    else:
-        print(msg)
-
 
 @common.auth
 def shop():
@@ -125,13 +105,10 @@ def shop():
             if not shop in shopping_cart:
                 shopping_cart[shop] = {'price': price, 'number': 1}
             shopping_cart[shop]['number'] += 1
-            flag, msg = shopping.pay_interface(user_info['name'], shopping_cart)
+            flag = shopping.pay_interface(user_info['name'], shopping_cart)
             # 调用结账接口购买商品
             if flag:
-                print(msg)
                 break
-            else:
-                print(msg)
         elif sure == 'J':
             # 加入购物车，稍后选择是否付款
             if not shop in shopping_cart:
@@ -142,12 +119,9 @@ def shop():
             print(msg)
             sure2 = input('是否对购物车的商品进行结算Y ,返回上级菜单按q/Q').strip()
             if sure2 == 'Y':
-                flag, msg = shopping.pay_interface(user_info['name'], shopping_cart)
+                flag = shopping.pay_interface(user_info['name'], shopping_cart)
                 if flag:
-                    print(msg)
                     break
-                else:
-                    print(msg)
             elif sure2 == 'Q' or sure2 == 'q':
                 break
 
