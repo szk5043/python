@@ -4,8 +4,10 @@
 # @File   : day9作业.py
 
 '''基础
-1.自定义一个 Fruit 类：该类有一个 类属性: identify，有两个对象属性: name，price，一个类方法: get_identify，
-一个对象方法：get_total_price(num)：打印『%s个%s值%s钱』，一个静态方法：packing(*fruits)
+1.自定义一个 Fruit 类：该类有一个 类属性: identify：值为"水果"，有两个对象属性: name，price：值由实例化对象时赋值，
+一个类方法: get_identify：打印类属性identify的值，
+一个对象方法：get_total_price(num)：打印『%s个%s值%s钱』，
+一个静态方法：packing(*fruits)
 	静态方法(装箱)的思路分析
 	red_apple = Fruit("红苹果", 10)
 	green_apple = Fruit("青苹果", 10)
@@ -14,33 +16,34 @@
 '''
 # class Fruit(object):
 #
-#     identify = 1   #类属性
+#     identify = "水果"   #类属性
 #
 #     def __init__(self,name,price):
 #         '''两个对对象属性'''
 #         self.name = name
 #         self.price = price
 #
+#
 #     @classmethod
 #     def get_identify(cls):
 #         '''类方法'''
-#         pass
+#         print(cls.identify)
 #
 #     def get_total_price(self,num):
 #         '''对象方法'''
 #         self.num = num
-#         print('%s个%s值%s钱' % (self.num,self.name,self.price))
+#         print('%s个%s值%s钱' % (self.num,self.name,self.price * self.num))
 #
 #     @staticmethod
 #     def packing(*fruits):
 #         '''静态方法'''
 #         apple = 0
 #         banana = 0
-#         print(fruits)
-#         if  '苹果' in fruits.name:
-#             apple += 1
-#         elif '香蕉' in fruits[0]:
-#             banana += 1
+#         for i in fruits:
+#             if '苹果' in i.name:
+#                 apple += 1
+#             elif '香蕉' in i.name:
+#                 banana += 1
 #         print('一箱装了%s个苹果%s个香蕉' % (apple,banana))
 #
 #
@@ -88,7 +91,6 @@
 # print(szk.name)
 
 '''
-拓展
 用面向对象实现 植物大战僵尸游戏
 
 1.定义一个僵尸Zombie类，该类可以实例化出多种僵尸对象，僵尸对象产生默认都有 名字name、血量HP、防具armor
@@ -115,32 +117,88 @@
 	-- 生成一个有角色名的角色，依次去击杀随机产生的每一只僵尸
 		-- 开始击杀第一只僵尸 => 某某用户攻击了某某个僵尸，僵尸损失多少血，还剩多少血 => 某某用户击杀了某某个僵尸 => 第一只僵尸已被击杀完毕 => 开始击杀第二只僵尸 ... => 第三只僵尸已被击杀完毕
 '''
+import time
+import random
+
 class Zombie(object):
-    def __init__(self,name,armor):
-        self.__name = name
-        self.__armor = armor
+    name = ''
+    HP = 100
+
+    def __init__(self, armor_name):
+        self.__armor_name = armor_name + '僵尸'
+        if armor_name == '普通':
+            self.__armor = ['无', 0]
+        if armor_name == '路障':
+            self.__armor = ['路障', 5]
+        if armor_name == '铁桶':
+            self.__armor = ['铁桶', 15]
 
     @property
     def armor_name(self):
-        return self.__name
+        return self.__armor_name
 
     @armor_name.setter
-    def armor_name(self,value):
-        armor_list = [['无', 0],['路障', 5],['铁桶', 15]]
-        for i in armor_list:
-            if value in i:
-                self.__name = value
-                self.__armor = i[1]
+    def armor_name(self, value):
+        self.__armor_name = value
+        if value == '普通':
+            self.__armor = ['无', 0]
+        if value == '路障':
+            self.__armor = ['路障', 5]
+        if value == '铁桶':
+            self.__armor = ['铁桶', 15]
 
     @armor_name.deleter
     def armor_name(self):
-        del self.__name
+        del self.__armor_name
 
     @property
+    def armor_count(self):
+        return self.__armor
 
 
-    @property
-    def HP(self):
-        return 100
+# z1 = Zombie('普通')
+# print(z1.armor_name, z1.armor_count)
+#
+# z2 = Zombie('铁桶')
+# print(z2.armor_name, z2.armor_count)
+#
+# z3 = Zombie('路障')
+# print(z3.armor_name, z3.armor_count, z3.HP)
 
+
+class User(object):
+    def __init__(self, name):
+        self.name = name
+
+    def beat(self, obj):
+        zombie_HP = obj.HP
+        zombie_name = obj.armor_name
+        zombie_count = obj.armor_count[1]
+        while True:
+            zombie_HP = zombie_HP - 25 + zombie_count
+            print('%s用户攻击了%s，僵尸损失%s血,还剩%s血' % (self.name, zombie_name, 25 - zombie_count, zombie_HP))
+            if zombie_HP <= 0:
+                print('%s用户击杀了%s僵尸' % (self.name,zombie_name))
+                break
+            time.sleep(3)
+
+# u1 = User('wesley')
+# u1.beat(z3)
+
+class Game(object):
+    print('----植物大战僵尸游戏----')
+
+    @classmethod
+    def start(cls):
+        num = 1
+        while num <= 3:
+            zombie = random.choice(['普通','路障','铁桶'])
+            zombie_obj = Zombie(zombie)
+            user = User('szk')
+            print('开始击杀第%s只僵尸' % num)
+            user.beat(zombie_obj)
+            print('第%s僵尸击杀完毕' %num)
+            num += 1
+
+Game.start()
 

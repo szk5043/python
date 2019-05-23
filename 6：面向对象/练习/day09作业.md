@@ -1,16 +1,18 @@
 ```python
 """基础
-1.自定义一个 Fruit 类：该类有一个 类属性: identify，有两个对象属性: name，price，一个类方法: get_identify，一个对象方法：get_total_price(num)：打印『%s个%s值%s钱』，一个静态方法：packing(*fruits)
+1.自定义一个 Fruit 类：该类有一个 类属性: identify：值为"水果"，有两个对象属性: name，price：值由实例化对象时赋值，一个类方法: get_identify：打印类属性identify的值，一个对象方法：get_total_price(num)：打印『%s个%s值%s钱』，一个静态方法：packing(*fruits)
 	静态方法(装箱)的思路分析
 	red_apple = Fruit("红苹果", 10)
 	green_apple = Fruit("青苹果", 10)
 	yellow_banana = Fruit("黄香蕉", 8)
 	调用：Frulit.packing(red_apple, green_apple, yellow_banana) 打印：一箱装了2个苹果1个香蕉
 
-2.自定义一个 Person 类，该类对象具有 name、weight、height、sex，
+2.自定义一个 Person 类，该类具有 name、weight、height、sex 四个对象属性，
 	-- 对name属性进行封装，但是外界任然可以访问name以及设置name
 	-- 有一个方法属性bmi(标准体重)，可以获取一个人的bmi，bmi只读不可写，bmi计算规则
 		-- 男：（身高cm－80）× 70﹪  |  女：（身高cm－70）× 60﹪
+
+提示：类属性就是直接写在类中的变量，对象属性就是写在__init__方法中的用self.属性 = 值 赋值的属性，方法属性就是用 @property 修饰的方法伪装成的属性
 """
 ```
 
