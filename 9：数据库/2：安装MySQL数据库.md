@@ -57,14 +57,13 @@ MYSQL_VERSION=5.7.23
 MYSQL_DOCKER_IMAGE=mysql:$MYSQL_VERSION
 
 MYSQL_CNF_DIR=/opt/deploy/mysql/conf
-DB_BACKUP_DIR=/opt/deploy/mysql/data
+DATA_DIR=/opt/deploy/mysql/data
 
-DATABASE_IP=172.25.10.4
 DATABASE_USERNAME=root
 DATABASE_PASSWORD=123
 
 # 1. start container
-docker run -t -d --name mysql --restart unless-stopped -v $MYSQL_CNF_DIR:/etc/mysql/conf.d -v :/var/lib/mysql -p 3306:3306 -e TZ='Asia/Hong_Kong' -e MYSQL_ROOT_PASSWORD="$DATABASE_PASSWORD" $MYSQL_DOCKER_IMAGE
+docker run -t -d --name mysql --restart unless-stopped -v $MYSQL_CNF_DIR:/etc/mysql/conf.d -v $DATA_DIR:/var/lib/mysql -p 3306:3306 -e TZ='Asia/Hong_Kong' -e MYSQL_ROOT_PASSWORD="$DATABASE_PASSWORD" $MYSQL_DOCKER_IMAGE
 echo 'start container mysql successfully...'
 ```
 
