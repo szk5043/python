@@ -163,11 +163,11 @@ sock.close()                                   # 关闭套接字
 解决：添加一条socket配置 , 重用ip和端口
 
 ```python
-import socket 
+import socket
+from socket import SOL_SOCKET,SO_REUSEADDR
 
-sock = socket.socket()
-
-# 添加在bind前 
-sock.setsockopt(socket.SOL_SOCKET,SO_REUSEADDR,1) sock.bind(address) 
+server = socket.socket()
+server.setsockopt(SOL_SOCKET,SO_REUSEADDR,1)   # 添加到bind前
+server.bind(('127.0.0.1', 8888))
 ```
 
