@@ -2,6 +2,12 @@
 # @Time   ： 2019/5/28 16:21
 # @Author : Wesley
 # @File   : teacher.py
+
+teacher_status = {
+    'user':None
+}
+
+
 def teacher_login():
     '''老师登录'''
     pass
