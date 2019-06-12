@@ -37,7 +37,7 @@ def create_teacher(name,scName,pwd):
     obj = Teacher.select(name)
     if obj:
         return
-    t = Teacher(name,scName,pwd)
+    t = Teacher(name,pwd,scName)
     return t
 
 def create_course(scName, cname, price, period):

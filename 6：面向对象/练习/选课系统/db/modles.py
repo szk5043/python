@@ -47,6 +47,11 @@ class Teacher(BaseClass):
         self.courses = []
         self.save()
 
+    def bind_to_course(self, course_name):
+        '''为老师增加课程'''
+        self.courses.append(course_name)
+        self.save()
+
     def __str__(self):
         return "name:%s courses:%s school:%s" %(self.name,self.courses,self.schoolName)
 
@@ -64,12 +69,12 @@ class Course(BaseClass):
 
 class Student(BaseClass):
     '''学生类，属性：姓名、密码、校区、课程、成绩'''
-    def __init__(self,name,passwd,schoolName,courses,scorer):
+    def __init__(self,name,passwd,schoolName):
         self.name = name
         self.passwd = passwd
         self.schoolName = schoolName
-        self.courses = courses
-        self.scorer = scorer
+        self.courses = []
+        self.scorer = {}
         self .save()
 
     def __str__(self):

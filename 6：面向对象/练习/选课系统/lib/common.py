@@ -57,3 +57,5 @@ def select_school():
             return scName
         else:
             print('输入不正确，请重试')
+
+

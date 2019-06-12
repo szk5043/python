@@ -11,7 +11,7 @@ def register_interface(user,passwd):
     # 获取已经创建的用户名，如果存在，则返回空；如果不存在，则创建
     if obj:
         return
-    student = Student(user,passwd)
+    student = Student(user,passwd,None)
     return student
 
 def login_interface(user, passwd):
@@ -38,7 +38,7 @@ def select_coures(student,course_name):
         c.save()
         return True
 
-def get_course_name(schoolName):
+def get_course_names(schoolName):
     # 获取学校类中的课程属性
     return School.select(schoolName).courses
 

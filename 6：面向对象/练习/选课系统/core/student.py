@@ -23,24 +23,28 @@ def student_register():
         if passwd != conf_passwd:
             print('两次密码输入不同，请重新输入!')
             continue
-        is_flag,msg = student_interface.register_interface(user,passwd)
-        if is_flag:
-            print(msg)
+        obj = student_interface.register_interface(user,passwd)
+        if obj:
+            print('注册成功')
         else:
-            print(msg)
+            print('该用户已经注册')
 
 def student_login():
     '''学生登录'''
     while True:
-        user = input('请输入登录的用户名：').strip()
-        passwd = input('请输入登录的密码：').strip()
-        is_flag, msg = student_interface.login_interface(user, passwd)
-        if is_flag:
-            print(msg)
-            student_status['user'] = user
+        if student_status['user'] is not None:
+            print('您已经登录')
             break
         else:
-            print(msg)
+            user = input('请输入登录的用户名：').strip()
+            passwd = input('请输入登录的密码：').strip()
+            obj = student_interface.login_interface(user, passwd)
+            if obj:
+                print('登录成功')
+                student_status['user'] = obj
+                break
+            else:
+                print('登录失败')
 
 @common.login_status(auth_type = 'student')
 def choose_school():
@@ -75,7 +79,7 @@ def choose_course():
             print(i,':',cname)
             num = input('请输入课程序号：').strip()
             if num == 'q':return
-            if num.isdigit() and int(num) > 0 and int(num) <= len(cnames):
+            if num.isdigit() and int(num) <= len(cnames):
                 if student_interface.select_coures(student_status['user'],cnames[int(num)]):
                     print('您已成功加入%s大家庭' % cnames[int(num)])
                     return
@@ -88,8 +92,37 @@ def choose_course():
 @common.login_status(auth_type = 'student')
 def check_score():
     '''查看成绩'''
-    pass
+    if not student_status['user'].scorer:
+        print('暂无成绩！')
+        return
+    print('您的成绩如下：')
+    for k in student_status['user'].scorer:
+        print("%-10s:%3s" % (k, student_status['user'].scorer[k]))
+    input('输入任意内容继续')
 
 def student_view():
     '''学生视图'''
-    pass
+    menu_dic = {
+        '1': student_register,
+        '2': student_login,
+        '3': choose_school,
+        '4': choose_course,
+        '5': check_score
+    }
+    while True:
+        print('''
+          1、学生注册
+          2、学生登录
+          3、选择学校
+          4、选择课程
+          5、查看成绩
+          ''')
+        chioce = input('请选择相应的视图：').strip()
+        if chioce == 'q':
+            student_status['user'] = None
+            break
+        if not chioce.isdigit():
+            print('请输入正确的视图编号！')
+        if chioce not in menu_dic:
+            print('您输入的视图编号不存在，请重新输入！')
+        menu_dic[chioce]()
