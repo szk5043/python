@@ -19,23 +19,22 @@
 ```shell
 $ tree .
 .
-├── FtpClient            
-│   └── ftp_client.py
-├── FtpServer
-│   ├── conf
-│   │   └── settings.py
-│   ├── core
-│   │   └── ftp_server.py
-│   ├── db
-│   │   └── db_handler.py
-│   ├── home
-│   ├── interface
-│   │   ├── get_interface.py
-│   │   ├── ls_interface.py
-│   │   └── put_interface.py
-│   ├── log
-│   └── start.py
-└── README.md
+├── 1.tiff
+├── README.md
+├── ftpclient
+│   └── ftpclient.py
+└── ftpserver
+    ├── conf
+    │   └── settings.py
+    ├── database
+    ├── ftpserver.py
+    ├── home
+    │   ├── szk
+    │   └── test
+    ├── log
+    └── modules
+        ├── auth_user.py
+        └── sokect_server.py
 ```
 
 
