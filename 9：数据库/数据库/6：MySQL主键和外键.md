@@ -169,11 +169,84 @@ INSERT into score(student_id,corse_id,number) VALUES(1,1,60),(1,2,59),(2,2,100);
 
 
 
-②、一对多
+②、一对多，外键映射关系
 
-③、一对一
+```
+userinfo
+			
+id   name   age  depart_id
+1     zekai 23     1
+2     zekai 23     2
+3     zekai 23     1
 
-④、多对多
+department：
+id   name
+1    开发部
+2    保安部
+3    运维部
+```
+
+③、一对一，外键映射关系
+
+```
+userinfo
+			
+id   name     age 
+1     eagon   23     
+2     zekai   23     
+3     lxxx    23   
+4     linhaifeng   78
+
+blog表：				   外键 + 唯一约束
+id     url             uid
+1      /linhaifeng/     4
+2      /lxxx/           3
+```
+
+详细建表语句
+
+```sql
+/*创建userinfo表*/
+create table userinfo (id int auto_increment primary key,name char(32) not null default '',age int not null default '1')engine=Innodb charset=utf8;
+
+/*创建blog表*/
+create table bolg (id int auto_increment primary key, url char(32) not null default '',uid int,constraint fk_name_uid foreign key (uid) references userinfo(id), unique  uid (uid));
+```
+
+④、多对多，外键映射关系
+
+```
+userinfo			
+id	name	age	
+1	root1	23	
+2	root2	24	
+3	root3	25	
+4	root4	26	
+5	root5	27	
+			
+host	
+id	name
+1	c1.com
+2	c2.com
+3	c3.com
+				
+user2host			
+id	uid	hid	
+1	1	1	
+2	1	2	
+3	1	3	
+4	2	1
+```
+
+详细建表语句
+
+```sql
+create table userinfo (id int auto_increment primary key,name char(32) not null default '',age int not null default '1')engine=Innodb charset=utf8;
+
+create table host(id int auto_increment primary key,name char(32) not null default '')engine=Innodb charset=utf8;
+
+create table user2host(id int auto_increment primary key, uid int,hid int,constraint fk_name_uid foreign key (uid) references userinfo(id),constraint fk_host_hid foreign key (hid) references host(id),  unique  uid_hid (uid,hid));
+```
 
 
 

@@ -441,5 +441,14 @@ select teacher.tname,count(course.cname) from teacher left join course on course
 +--------+---------------------+
 ```
 
+**示例九、SQL嵌套、子查询**
+
+不建议大家在线上使用SQL子查询进行操作，建议将SQL语句分叉成多条简单的SQL语句， 分别查询， 速度是快于嵌套查询
+
+```sql
+/*查询没学过“李平”老师课的同学的学号、姓名*/
+select distinct student_id from score where corse_id not in (select cid from teacher left join course on teacher.tid=course.tearch_id where tname like '李平老师');
+```
+
 
 
