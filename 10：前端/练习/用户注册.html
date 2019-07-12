@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td>用户: </td>
+                <td>
+                    <input type="text"/>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>密码：</td>
+                <td>
+                    <input type="password"/>
+                </td>
+            </tr>
+            <tr>
+                <td>性别：</td>
+                <td>
+                    <input type="radio" name="gender"/> 男
+                    <input type="radio" name="gender"/> 女
+                </td>
+            </tr>
+            <tr>
+                <td>地址：</td>
+                <td>
+                    <select name="city" id="city">
+                        <option value="请选择" selected="selected">请选择</option>
+                        <option value="北京">北京</option>
+                        <option value="上海">上海</option>
+                        <option value="广州">广州</option>
+                        <option value="深圳">深圳</option>
+                        <option value="杭州">杭州</option>
+                    </select>
+                    <select name="zone" id="zone">
+                        <option value="请选择" selected="selected">请选择</option>
+                        <option value="长宁">长宁</option>
+                        <option value="静安">静安</option>
+                        <option value="虹口">虹口</option>
+                        <option value="杨浦">杨浦</option>
+                        <option value="宝山">宝山</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>爱好：</td>
+                <td>
+                    <input type="checkbox" name='hobby'/> 足球
+                    <input type="checkbox" name='hobby'/> 篮球
+                    <input type="checkbox" name='hobby'/> 乒乓球
+                    <input type="checkbox" name='hobby'/> 羽毛球
+                </td>
+            </tr>
+            <tr>
+                <td>邮箱：</td>
+                <td>
+                    <input type="text"><br>
+                </td>
+            </tr>
+            <tr>
+                <td>电话号码：</td>
+                <td>
+                    <input type="text"><br>
+                </td>
+            </tr>
+            <tr>
+                <td>上传头像：</td>
+                <td>
+                    <input type="file"><br>
+                </td>
+            </tr>
+            <tr>
+                <td height="150" align="left">其他：</td>
+                <td>
+                    <textarea id="text1" style="width: 200px;height: 100px;"> </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="普通按钮">
+                    <input type="submit" value="注册按钮">
+                    <input type="reset" value="取消按钮">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
