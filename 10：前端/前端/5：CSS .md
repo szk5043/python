@@ -29,7 +29,7 @@ CSS指的是**层叠样式表(Cascading Style Sheets)**
 ①、行内样式
 
 它是所有样式方法中最为直接的一种，它直接对HTML的标签使用style属性，
-然后将css代码直接写在其中。
+然后将css代码直接写在其中 。
 
 ```html
 <p style="color: aqua;font-size:300px;">hello world</p>
@@ -500,7 +500,7 @@ selector {declaration1;declaration2;... declarationN}
 
 ![images](./images/13.png)
 
-示例7：定位属性之头部固定+返回顶部
+示例7：定位属性之固定定位头部固定+返回顶部
 
 ```html
 <style>
@@ -541,8 +541,84 @@ selector {declaration1;declaration2;... declarationN}
 
 ![images](./images/14.png)
 
+示例8：定位属性之相对定位
+
+```html
+<style>
+  /*去除留白*/
+  *{
+    margin: 0;
+    padding: 0;
+  }
+
+  /*共同样式*/
+  .c1,.c2,.c3{
+    width: 300px;
+    height: 150px;
+  }
+
+  .c1{
+    background-color: red;
+  }
+
+  .c2{
+    background-color: yellow;
+    position: relative;     /*相对于自身做定位*/
+    top: 20px;  /*上面距离自身之前位置 20像素*/
+    left: 30px; /*左面距离自身之前位置 30像素*/
+  }
+
+  .c3{
+    background-color: green;
+  }
+</style>
+
+<div class="c1"></div>
+<div class="c2"></div>
+<div class="c3"></div>
+```
+
+效果：
+
+![images](./images/15.png)
+示例9：定位属性之绝对定位
+```html
+<style>
+  /*去除留白*/
+  *{
+    margin: 0;
+    padding: 0;
+  }
+
+  /*共同样式*/
+  .c1,.c2,.c3{
+    width: 300px;
+    height: 150px;
+  }
+
+  .c1{
+    background-color: red;
+  }
+
+  .c2{
+    background-color: yellow;
+    position: absolute;     /*相对于body做定位*/
+    top: 20px;  /*上面距离body 20像素*/
+    left: 30px; /*左面距离body 30像素*/
+  }
+
+  .c3{
+    background-color: green;
+  }
+</style>
+
+<div class="c1"></div>
+<div class="c2"></div>
+<div class="c3"></div>
+```
+![images](./images/16.png)
 > 参数详解：
 >
 > - fixed : 将某个元素固定在页面的某个位置，定位方式通常与定位坐标Top，left，right，bottom一起使用
-> - absolute :  绝对定位
-> - relative：相对定位
+> - absolute :  绝对定位：找父元素是否有定位，没有则找\<body\>,就想对于\<body\>进行定位
+> - relative：相对定位，相对于之前的位置

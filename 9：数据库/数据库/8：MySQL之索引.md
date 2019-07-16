@@ -6,6 +6,16 @@
 
 索引是在MySQL的存储引擎层中实现的  而不是在服务器层实现的 , 所以每种存储引擎的索引都不一定完全相同 , 也不是所有的存储引擎都支持所有的索引类型
 
+是否需要对每一列都要加索引？
+
+- 不是的，索引固然加速了查找，但是对增删改查的效率不高。原则需要根据业务决定(向经常使用的字段上加索引)
+
+索引使用的前提（**语句前面加一个explain**，测试是否用到索引，type:ALL表示全表查询）：
+
+- 不能使用`like`
+- 不要在语句中使用函数
+- 类型需要一致
+
 三个常用引擎支持的索引类型比较
 
 | 索引          | MyISAM引擎 | InnoDB引擎    | Memory引擎 |
@@ -15,9 +25,14 @@
 | R-Tree索引    | 支持       | 不支持        | 不支持     |
 | Full-text索引 | 支持       | 5.6版本后支持 | 不支持     |
 
-下面对比较常用的两个索引类型进行说明
+索引的类型：
 
-2、插入三百万条数据
+- 主键索引：加速查找+不能为空+不能重复 primary key
+- 唯一索引：加速查找+不能重复 unique(name)
+	- 联合唯一索引：加速查找+两列不能重复
+- 普通索引：加速查找 `index ix_name (name)`
+
+### 2、插入三百万条数据
 
 ①、创建相关的库和表
 
@@ -62,5 +77,88 @@ select count(id) from user;
 +-----------+
 |   3000000 |
 +-----------+
+```
+
+### 3、创建主键索引
+
+两种创建索引的方式：
+
+①、创建表结构的时候创建索引
+
+```sql
+create table xxx(
+	id int auto_increment primary key,
+	name varchar(32) not null default '',
+	unique uq_name (name));
+```
+
+②、表结构已经创建完后创建索引
+
+```sql
+create table xxx(
+	id int,
+	name varchar(32) not null default '',
+	unique uq_name (name));
+	
+alter table xxx change id id int primary key;
+```
+
+### 4、创建唯一索引
+
+两种创建索引的方式：
+
+①、创建表结构的时候创建索引
+
+```sql
+create table xxx(
+	id int auto_increment primary key,
+	name varchar(32) not null default '',
+	unique uq_name (name));
+```
+
+②、表结构已经创建完后创建索引
+
+```sql
+create index ix_name on xxx(name);
+```
+
+### 5、创建普通索引
+
+两种创建索引的方式：
+
+①、创建表结构的时候创建索引
+
+```sql
+create table xxx(
+	id int auto_increment primary key,
+	name varchar(32) not null default '',
+	index ix_name (name),
+	unique uq_name (name));
+```
+
+②、表结构已经创建完后创建索引
+
+```sql
+create index ix_name on xxx(name);
+```
+
+### 6、查看创建的索引
+
+```sql
+show indexs ix_name from name\G;
+```
+
+### 7、删除索引
+
+①、删除普通索引和唯一索引
+
+```sql
+drop index 索引名 on 表名；
+```
+
+②、删除主键索引
+
+```sql
+alter table 表名 drop primary key;
 ```
 
